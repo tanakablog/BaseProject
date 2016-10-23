@@ -1,0 +1,8 @@
+Library
+.DS_Store
+Temp
+*.csproj
+*.sln
+*.userprefs
+BaseProject.sln.ide/
+*.suo
