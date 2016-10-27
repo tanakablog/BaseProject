@@ -22,7 +22,7 @@ namespace UI.Private
 		/// 一列の個数
 		/// </summary>
 		[SerializeField]
-		private int m_LineNumber;
+		private int m_OneLineNumber;
 
         /// <summary>
         /// ボードサイズ
@@ -64,6 +64,16 @@ namespace UI.Private
 		/// </summary>
 		protected ScrollRect m_ScrollRect;
 
+		/// <summary>
+		/// 最大インデックス
+		/// </summary>
+		protected int m_MaxIndex;
+
+		/// <summary>
+		/// 最大開始ライン
+		/// </summary>
+		protected int m_MaxStartLineNumber;
+
 		private void Awake()
 		{
 			// スクロールレクト取得
@@ -76,22 +86,36 @@ namespace UI.Private
         /// <param name="num">要素数</param>
         /// <param name="h_display_number">横に表示するボード数</param>
         /// <param name="v_display_number">縦に表示するボード数</param>
-        public virtual void Initialize(int num, int h_display_number = 0, int v_display_number = 0)
+        public virtual void Initialize(int total_content_number, int h_display_number = 0, int v_display_number = 0)
         {
             // ボード数更新
             UpdateBoardNumber(h_display_number, v_display_number);
 
 			// 加算列数算出
-			int add_line_number = num % m_LineNumber == 0 ? 0 : 1;
+			int add_line_number = total_content_number % m_OneLineNumber == 0 ? 0 : 1;
 
-			SetScrollContentsSize(
+			// 最終ライン数算出
+			int last_line_number = (total_content_number / m_OneLineNumber) + add_line_number;
+
+			// スクロールサイズ設定
+			SetScrollContentsSizeFromLineNumber (last_line_number);
+
+
         }
 
 		/// <summary>
-		/// スクロールサイズ
+		/// ライン数からスクロールサイズ設定
 		/// </summary>
-		/// <param name="size">Size.</param>
-		protected abstract void SetScrollContentsSize (float size);
+		/// <param name="number">ライン数</param>
+		protected abstract void SetScrollContentsSizeFromLineNumber (int number);
+
+		/// <summary>
+		/// インデックスからライン数算出
+		/// </summary>
+		/// <remarks>ライン数は0オリジン</remarks>
+		/// <returns>ライン数</returns>
+		/// <param name="index">インデックス</param>
+		protected abstract int CalculateLineFromIndex (int index);
         
 		/// <summary>
         /// ボード数更新
