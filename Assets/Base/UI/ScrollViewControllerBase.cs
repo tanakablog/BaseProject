@@ -100,7 +100,8 @@ namespace UI.Private
 			// スクロールサイズ設定
 			SetScrollContentsSizeFromLineNumber (last_line_number);
 
-
+			// 最大インデックス数設定
+			m_MaxIndex = total_content_number - 1;
         }
 
 		/// <summary>
@@ -116,6 +117,12 @@ namespace UI.Private
 		/// <returns>ライン数</returns>
 		/// <param name="index">インデックス</param>
 		protected abstract int CalculateLineFromIndex (int index);
+
+		/// <summary>
+		/// 最大インデックスから最大開始ライン数算出
+		/// </summary>
+		/// <param name="max_index">最大インデックス</param>
+		protected abstract void CalculateMaxStartLineNumberFromMaxIndex (int max_index);
         
 		/// <summary>
         /// ボード数更新
